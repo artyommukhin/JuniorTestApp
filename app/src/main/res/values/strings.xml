@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">JuniorTestApp</string>
+    <string name="user_id_label">User ID</string>
+    <string name="post_title_label">Title</string>
+    <string name="post_body_label">Body</string>
+    <string name="create_button_text">Create</string>
+    <string name="add_post_button_text">Add post</string>
+    <string name="edit_menu_item">Edit</string>
+    <string name="delete_menu_item">Delete</string>
+</resources>

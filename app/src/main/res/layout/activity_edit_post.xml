@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".EditPostActivity" >
+
+    <TextView
+        android:id="@+id/text_user_id"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:labelFor="@+id/user_id"
+        android:textSize="24sp"
+        android:text="@string/user_id_label" />
+    <EditText
+        android:id="@+id/user_id"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/text_user_id"
+        android:inputType="number" />
+
+    <TextView
+        android:id="@+id/text_post_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/user_id"
+        android:labelFor="@+id/post_title"
+        android:text="@string/post_title_label"
+        android:textSize="24sp" />
+    <EditText
+        android:id="@+id/post_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/text_post_title"
+        android:autofillHints="name"
+        android:inputType="text" />
+
+    <TextView
+        android:id="@+id/text_post_body"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:labelFor="@+id/post_body"
+        android:textSize="24sp"
+        android:text="@string/post_body_label"
+        android:layout_below="@+id/post_title" />
+    <EditText
+        android:id="@+id/post_body"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/text_post_body"
+        android:autofillHints="name"
+        android:inputType="textMultiLine"
+        android:lines="8"
+        android:scrollbars="vertical" />
+
+    <Button
+        android:id="@+id/button_save_post"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/create_button_text"
+        android:textSize="24sp"
+        android:layout_alignParentBottom="true"/>
+
+</RelativeLayout>
