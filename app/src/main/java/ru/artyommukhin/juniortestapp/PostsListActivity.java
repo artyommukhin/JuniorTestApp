@@ -1,39 +1,29 @@
 package ru.artyommukhin.juniortestapp;
 
-import androidx.activity.result.ActivityResult;
-import androidx.activity.result.ActivityResultCallback;
+import android.app.Activity;
+import android.content.Intent;
+import android.os.Bundle;
+import android.util.Log;
+import android.widget.Button;
+import android.widget.ListView;
+import android.widget.Toast;
+
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import android.annotation.SuppressLint;
-import android.app.Activity;
-import android.content.Intent;
-import android.graphics.Bitmap;
-import android.os.Bundle;
-import android.util.Log;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.ListView;
-import android.widget.Toast;
-
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.ImageRequest;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Locale;
 
 public class PostsListActivity extends AppCompatActivity {
 
@@ -68,11 +58,9 @@ public class PostsListActivity extends AppCompatActivity {
 
                         if (editedPost != null) {
                             updatePost(editedPost.getId(), editedPost);
-                            Toast.makeText(getApplicationContext(), "Post changed", Toast.LENGTH_SHORT).show();
                         }
                         if (deletedPostId != null) {
                             deletePost(deletedPostId);
-                            Toast.makeText(getApplicationContext(), "Post deleted", Toast.LENGTH_SHORT).show();
                         }
                     }
                 }
@@ -108,9 +96,8 @@ public class PostsListActivity extends AppCompatActivity {
             viewPost.launch(viewPostIntent);
         });
 
-        addPostButton.setOnClickListener(view -> {
-            createPost.launch(new Intent(this, EditPostActivity.class));
-        });
+        addPostButton.setOnClickListener(view ->
+                createPost.launch(new Intent(this, EditPostActivity.class)));
 
     }
 
@@ -123,47 +110,48 @@ public class PostsListActivity extends AppCompatActivity {
                 responseArray -> {
                     posts.clear();
 
-                        for (int i = 0; i < responseArray.length(); i++) {
-                            Post newPost = null;
-                            try {
-                                JSONObject jsonPost = responseArray.getJSONObject(i);
-                                newPost = new Post(
-                                        jsonPost.getInt("userId"),
-                                        jsonPost.getInt("id"),
-                                        jsonPost.getString("title"),
-                                        jsonPost.getString("body")
-                                );
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-                            posts.add(newPost);
-
-                            requestQueue.add(new JsonObjectRequest(
-                                    Request.Method.GET,
-                                    String.format("http://jsonplaceholder.typicode.com/photos/%1d", newPost.getId()),
-                                    null,
-                                    response -> {
-
-                                        String imageUrl = null;
-                                        String thumbImageUrl = null;
-                                        Integer imageId = null;
-                                        try {
-                                            imageUrl = response.getString("url");
-                                            thumbImageUrl = response.getString("thumbnailUrl");
-                                            imageId = response.getInt("id");
-                                        } catch (JSONException e) {
-                                            e.printStackTrace();
-                                        }
-                                        if (imageUrl != null && imageId != null) {
-                                            Post post = posts.get(getPostIndexById(imageId));
-                                            post.setImageUrl(imageUrl);
-                                            post.setThumbImageUrl(thumbImageUrl);
-                                            postsAdapter.notifyDataSetChanged();
-                                        }
-                                    },
-                                    error -> Log.e("DownloadPostImages", error.getLocalizedMessage())
-                            ));
+                    for (int i = 0; i < responseArray.length(); i++) {
+                        Post newPost = null;
+                        try {
+                            JSONObject jsonPost = responseArray.getJSONObject(i);
+                            newPost = new Post(
+                                    jsonPost.getInt("userId"),
+                                    jsonPost.getInt("id"),
+                                    jsonPost.getString("title"),
+                                    jsonPost.getString("body")
+                            );
+                        } catch (JSONException e) {
+                            e.printStackTrace();
                         }
+                        posts.add(newPost);
+
+                        requestQueue.add(new JsonObjectRequest(
+                                Request.Method.GET,
+                                String.format("http://jsonplaceholder.typicode.com/photos/%1d", newPost.getId()),
+                                null,
+                                response -> {
+
+                                    String imageUrl = null;
+                                    String thumbImageUrl = null;
+                                    Integer imageId = null;
+                                    try {
+                                        imageUrl = response.getString("url");
+                                        thumbImageUrl = response.getString("thumbnailUrl");
+                                        imageId = response.getInt("id");
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+                                    if (imageUrl != null && imageId != null) {
+                                        Post post = posts.get(getPostIndexById(imageId));
+                                        post.setImageUrl(imageUrl);
+                                        post.setThumbImageUrl(thumbImageUrl);
+                                        postsAdapter.notifyDataSetChanged();
+                                    }
+                                },
+                                error -> Log.e("DownloadPostImages", error.getLocalizedMessage())
+                        ));
+                    }
+                    Toast.makeText(this, "Posts downloaded", Toast.LENGTH_SHORT).show();
                 },
                 error -> Log.e("DownloadPosts", error.toString())
         ));
@@ -175,7 +163,7 @@ public class PostsListActivity extends AppCompatActivity {
                 Request.Method.DELETE,
                 String.format("http://jsonplaceholder.typicode.com/posts/%1d", id),
                 response -> {
-                    Toast.makeText(getApplicationContext(), "post " + id + " deleted", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Post " + id + " deleted", Toast.LENGTH_SHORT).show();
                     postsAdapter.notifyDataSetChanged();
                     Log.d("deletePost", response);
                 },
@@ -193,7 +181,10 @@ public class PostsListActivity extends AppCompatActivity {
                 Request.Method.PUT,
                 String.format("http://jsonplaceholder.typicode.com/posts/%1d", id),
                 updatedPost.toJSON(),
-                response -> Log.d("updatePost", response.toString()),
+                response -> {
+                    Toast.makeText(this, "Post " + id + " updated", Toast.LENGTH_SHORT).show();
+                    Log.d("updatePost", response.toString());
+                },
                 error -> Log.e("updatePost", error.toString())
         ));
     }
@@ -207,11 +198,16 @@ public class PostsListActivity extends AppCompatActivity {
                 Request.Method.POST,
                 "http://jsonplaceholder.typicode.com/posts",
                 post.toJSON(),
-                response -> Log.d("createPost", response.toString()),
-                error -> Log.d("createPost", error.toString())
+                response -> {
+                    Toast.makeText(this, "Post created", Toast.LENGTH_SHORT).show();
+                    Log.d("createPost", response.toString());
+                },
+                error -> {
+                    Toast.makeText(this, "Post not created, error", Toast.LENGTH_SHORT).show();
+                    Log.d("createPost", error.toString());
+                }
         ));
     }
-
 
 
     private Integer getPostIndexById(int id) {

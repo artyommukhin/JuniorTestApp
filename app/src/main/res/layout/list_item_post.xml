@@ -9,27 +9,27 @@
         android:id="@+id/list_item_image"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:contentDescription="Post image"
+        android:contentDescription="@string/post_item_image_description"
         android:src="@drawable/ic_launcher_background" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:paddingLeft="8dp" >
+        android:paddingHorizontal="8dp" >
 
         <TextView
             android:id="@+id/list_item_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="24sp"
-            android:text="Post title"/>
+            android:text="@string/post_item_title_text"/>
 
         <TextView
             android:id="@+id/list_item_body"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Body"
+            android:text="@string/post_item_body_text"
             android:textSize="12sp" />
 
     </LinearLayout>

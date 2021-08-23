@@ -42,10 +42,10 @@
         android:id="@+id/text_post_body"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/post_title"
         android:labelFor="@+id/post_body"
-        android:textSize="24sp"
         android:text="@string/post_body_label"
-        android:layout_below="@+id/post_title" />
+        android:textSize="24sp" />
     <EditText
         android:id="@+id/post_body"
         android:layout_width="match_parent"

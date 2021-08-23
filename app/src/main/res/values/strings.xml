@@ -7,4 +7,10 @@
     <string name="add_post_button_text">Add post</string>
     <string name="edit_menu_item">Edit</string>
     <string name="delete_menu_item">Delete</string>
+    <string name="post_image_description">Post image</string>
+    <string name="post_title_text">Post title</string>
+    <string name="post_body_text">Post body</string>
+    <string name="post_item_image_description">Post image</string>
+    <string name="post_item_title_text">Post title</string>
+    <string name="post_item_body_text">Body</string>
 </resources>
